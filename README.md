@@ -41,6 +41,7 @@ still a good chance to encounter strange behavior that was not previously tested
 Before attempting to build PoMiDAQ, ensure all dependencies (and their development files) are installed on your system.
 You should then be able to build the software after configuring the build with cmake for your platform.
 
+#### Debian-based Linux
 On Debian-based Linux systems, all dependencies can be installed from the package repositories with this command:
 ```bash
 sudo apt install cmake ninja-build qtbase5-dev libqt5opengl5-dev libkf5configwidgets-dev \
@@ -55,5 +56,27 @@ ninja
 sudo ninja install
 sudo ldconfig
 ```
+
+#### MacOS
+On macOS, dependencies can be obtained via the Homebrew package manager using the command:
+```bash
+brew install cmake ninja qt@5 ffmpeg python3 opencv numpy cython pybind11
+```
+The homebrew installation paths differ between Apple Silicon and Intel macs. On Intel Macs:
+```bash
+echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> ~/.zshrc
+```
+On Apple Silicon systems:
+```bash
+echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.zshrc
+```
+
+The software can then be built:
+```bash
+mkdir build && cd build
+cmake -GXcode -DCMAKE_BUILD_TYPE=RelWithDebInfo -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" ..
+```
+You can then open the XCode project and build the "All Targets" target. 
+
 
 Pull-requests are very welcome! (Code should be valid C++14, use 4 spaces for indentation)
