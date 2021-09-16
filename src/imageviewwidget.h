@@ -18,12 +18,18 @@
  */
 
 #pragma once
-
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions_3_0>
+#ifdef Q_OS_DARWIN
+    // macOS Requires a *_Core version, of which 3_2 is the first
+    #include <QOpenGLFunctions_3_2_Core>
+    #define QOpenGLFunctions_Version QOpenGLFunctions_3_2_Core
+#else
+    #include <QOpenGLFunctions_3_0>
+    #define QOpenGLFunctions_Version QOpenGLFunctions_3_0
+#endif
 #include <opencv2/core/core.hpp>
 
-class ImageViewWidget: public QOpenGLWidget, protected QOpenGLFunctions_3_0
+class ImageViewWidget: public QOpenGLWidget, protected QOpenGLFunctions_Version
 {
     Q_OBJECT
 public:
