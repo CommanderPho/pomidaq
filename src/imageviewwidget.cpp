@@ -46,6 +46,16 @@ ImageViewWidget::ImageViewWidget(QWidget *parent)
     : QOpenGLWidget(parent),
       d(new ImageViewWidget::Private)
 {
+
+#ifdef Q_OS_DARWIN
+    // Set the QSurfaceFormat, required for macOS because apple doesn't provide compatibility libraries for OpenGL:
+    QSurfaceFormat format;
+    format.setMajorVersion(4);
+    format.setMinorVersion(3);
+    format.setOption(QSurfaceFormat::DebugContext);
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    setFormat(format);
+#endif
     d->bgColor = QColor::fromRgb(150, 150, 150);
     setWindowTitle("Video");
 
