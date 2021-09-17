@@ -74,9 +74,9 @@ echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.zshrc
 The software can then be built:
 ```bash
 mkdir build && cd build
-cmake -GXcode -DCMAKE_BUILD_TYPE=RelWithDebInfo -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" ..
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DQt5_DIR=$(brew --prefix qt5)/lib/cmake/Qt5 -DCMAKE_OSX_ARCHITECTURES="x86_64" ..
 ```
-You can then open the XCode project and build the "All Targets" target. 
-
+Replace `"x86_64"` with `"arm64"` on Apple Silicon builds, or `"x86_64;arm64"` if you want to build both (but you have to have libraries for both platforms available).
+The executable `pomidaq.app` application should then be located in your `build/src/` folder which can be started by double-clicking.
 
 Pull-requests are very welcome! (Code should be valid C++14, use 4 spaces for indentation)
