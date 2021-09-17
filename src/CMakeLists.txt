@@ -61,3 +61,22 @@ if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
    set_target_properties(pomidaq PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:windows")
    set_target_properties(pomidaq PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:windows")
 endif()
+
+
+# MacOS Stuff
+if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+    set(ICON_NAME "pomidaq.icns")
+    set(ICON_PATH ${PROJECT_SOURCE_DIR}/data/MacOS/${ICON_NAME})
+    set(pomidaq_ICON ${ICON_PATH})
+    set_source_files_properties(${pomidaq_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    file(COPY ${ICON_PATH} DESTINATION "pomidaq.app/Contents/Resources")
+
+    set_target_properties(pomidaq PROPERTIES
+        BUNDLE True
+        MACOSX_BUNDLE_GUI_IDENTIFIER com.github.repo.bothlab.pomidaq
+        MACOSX_BUNDLE_BUNDLE_NAME pomidaq
+        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/data/MacOS/MacOSXBundleInfoTemplate.plist.in
+    )
+endif()
